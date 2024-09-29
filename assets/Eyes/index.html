@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Generator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="generator-container">
+        <h1>Custom Image Generator</h1>
+        <p>Select your preferred components to create a custom image.</p>
+        <div id="controls">
+            <div class="selector">
+                <label for="background-select">Background:</label>
+                <select id="background-select"></select>
+            </div>
+            <div class="selector">
+                <label for="shank-select">Shank:</label>
+                <select id="shank-select"></select>
+            </div>
+            <div class="selector">
+                <label for="eyes-select">Eyes:</label>
+                <select id="eyes-select"></select>
+            </div>
+            <div class="selector">
+                <label for="enamel-select">Enamel:</label>
+                <select id="enamel-select"></select>
+            </div>
+            <button id="randomize-btn">Randomize</button>
+            <button id="download-btn">Download</button>
+        </div>
+        <div id="preview">
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
