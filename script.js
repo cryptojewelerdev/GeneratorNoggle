@@ -1,38 +1,63 @@
-// Load components from JSON files
+// Paths to asset folders (use this for future extensions if needed)
+const assetPaths = {
+    background: './assets/Background/',
+    shank: './assets/Shank/',
+    eyes: './assets/Eyes/',
+    enamel: './assets/Enamel/'
+};
+
+// Component selections to store the images for each component
+const components = {
+    background: [],
+    shank: [],
+    eyes: [],
+    enamel: []
+};
+
+// Fetch components from JSON files and populate selection dropdowns
 async function loadComponents() {
     for (const component of ['background', 'shank', 'eyes', 'enamel']) {
         components[component] = await fetchComponentList(component);
         populateSelect(component);
     }
-    updatePreview();
+    updatePreview();  // Initial preview update after loading components
 }
 
-// Fetch component list from JSON files
+// Fetch component list from JSON files, which contain base64-encoded image data
 async function fetchComponentList(component) {
-    const response = await fetch(`data/${component}.json`);
-    if (response.ok) {
-        return await response.json();
-    } else {
-        console.error(`Failed to load ${component} data.`);
-        return [];
+    try {
+        const response = await fetch(`./data/${component}.json`);
+        if (response.ok) {
+            const jsonData = await response.json();
+            // Return an array of objects, each containing the filename and base64 data
+            return jsonData.map(item => ({
+                filename: item.filename,
+                data: `data:${item.filetype};base64,${item.data}`
+            }));
+        } else {
+            console.error(`Error loading ${component} JSON: ${response.status}`);
+        }
+    } catch (error) {
+        console.error(`Fetch failed for ${component} JSON: ${error}`);
     }
+    return [];
 }
 
-// Populate the select elements with options
+// Populate the select dropdowns with options based on the JSON data
 function populateSelect(component) {
     const select = document.getElementById(`${component}-select`);
-    components[component].forEach(fileName => {
+    components[component].forEach((item, index) => {
         const option = document.createElement('option');
-        option.value = fileName;
-        option.textContent = fileName;
+        option.value = index;  // Use the index to reference the correct base64 data later
+        option.textContent = item.filename;
         select.appendChild(option);
     });
 
-    // Add event listener
+    // Add event listener to update the preview whenever a new option is selected
     select.addEventListener('change', updatePreview);
 }
 
-// Update the preview canvas
+// Update the preview canvas based on the selected components
 function updatePreview() {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
@@ -40,15 +65,19 @@ function updatePreview() {
 
     const promises = [];
 
+    // Loop through each component (background, shank, eyes, enamel)
     for (const component of ['background', 'shank', 'eyes', 'enamel']) {
         const select = document.getElementById(`${component}-select`);
-        const fileName = select.value;
-        if (fileName) {
+        const selectedIndex = select.value;
+        
+        if (selectedIndex !== "") {
+            const selectedImage = components[component][selectedIndex].data;  // Get the base64 image data
             const img = new Image();
-            img.src = `${assetPaths[component]}${fileName}`;
+            img.src = selectedImage;
+            
             const promise = new Promise(resolve => {
                 img.onload = () => {
-                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);  // Draw the image on the canvas
                     resolve();
                 };
                 img.onerror = () => {
@@ -60,22 +89,21 @@ function updatePreview() {
         }
     }
 
-    // Wait for all images to load
+    // Wait for all images to be loaded and drawn on the canvas
     Promise.all(promises);
 }
 
-// Randomize selections
+// Randomize component selections
 function randomizeSelections() {
     for (const component of ['background', 'shank', 'eyes', 'enamel']) {
         const select = document.getElementById(`${component}-select`);
-        const options = select.options;
-        const randomIndex = Math.floor(Math.random() * options.length);
+        const randomIndex = Math.floor(Math.random() * components[component].length);
         select.selectedIndex = randomIndex;
     }
-    updatePreview();
+    updatePreview();  // Re-draw the preview with the random selections
 }
 
-// Download the image
+// Download the composed image from the canvas
 function downloadImage() {
     const canvas = document.getElementById('canvas');
     const link = document.createElement('a');
@@ -84,3 +112,9 @@ function downloadImage() {
     link.click();
 }
 
+// Event listeners for buttons
+document.getElementById('randomize-btn').addEventListener('click', randomizeSelections);
+document.getElementById('download-btn').addEventListener('click', downloadImage);
+
+// Initialize the application by loading the components
+loadComponents();
