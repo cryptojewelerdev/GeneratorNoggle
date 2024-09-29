@@ -1,0 +1,43 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+#generator-container {
+    width: 500px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+h1, p {
+    text-align: center;
+}
+
+#controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.selector {
+    display: flex;
+    flex-direction: column;
+}
+
+#randomize-btn, #download-btn {
+    grid-column: span 2;
+    padding: 10px;
+}
+
+#preview {
+    text-align: center;
+}
+
+#canvas {
+    border: 1px solid #ccc;
+}

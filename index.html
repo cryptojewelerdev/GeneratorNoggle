@@ -2,78 +2,37 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Custom Image Generator</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <section class="wardrobe">
-        <div class="wrapper">
-            <div class="title">
-                <h1>Custom Generator</h1>
-                <p>powered by <a href="https://yourdomain.com" target="_blank">YourBrand</a></p>
+    <div id="generator-container">
+        <h1>Custom Image Generator</h1>
+        <p>Select your preferred components to create a custom image.</p>
+        <div id="controls">
+            <div class="selector">
+                <label for="background-select">Background:</label>
+                <select id="background-select"></select>
             </div>
-            <div class="toggler">
-                <div class="single toggle-active-collection active">
-                    <img src="assets/icons/collection1.png" alt="Collection 1">
-                </div>
+            <div class="selector">
+                <label for="shank-select">Shank:</label>
+                <select id="shank-select"></select>
             </div>
-            <div class="content">
-                <div class="preview">
-                    <div class="image loading" id="load-preview">
-                        <canvas width="1000" height="1000" id="drawAsset"></canvas>
-                    </div>
-                    <div class="actions">
-                        <div class="input">
-                            <input type="text" placeholder="Search Asset #" id="asset-id-input">
-                            <button type="button" class="search-asset-id">
-                                <img src="assets/icons/search.png" alt="Search Icon">
-                            </button>
-                        </div>
-                        <div class="buttons">
-                            <button type="button" class="randomize-btn">
-                                <img src="assets/icons/dice.png" alt="Randomize">
-                                <span>Randomise</span>
-                            </button>
-                            <button type="button" class="reset-btn">
-                                <img src="assets/icons/reset.png" alt="Reset">
-                                <span>Reset</span>
-                            </button>
-                            <button type="button" class="download-btn">
-                                <img src="assets/icons/download.png" alt="Download">
-                                <span>Download</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="items">
-                    <!-- Here are the customization options for Background, Shank, Enamel, Eyes -->
-                    <div class="customization-options">
-                        <h3>Background</h3>
-                        <div class="background-options">
-                            <!-- Background options will go here -->
-                        </div>
-
-                        <h3>Shank</h3>
-                        <div class="shank-options">
-                            <!-- Shank options will go here -->
-                        </div>
-
-                        <h3>Enamel</h3>
-                        <div class="enamel-options">
-                            <!-- Enamel options will go here -->
-                        </div>
-
-                        <h3>Eyes</h3>
-                        <div class="eyes-options">
-                            <!-- Eyes options will go here -->
-                        </div>
-                    </div>
-                </div>
+            <div class="selector">
+                <label for="eyes-select">Eyes:</label>
+                <select id="eyes-select"></select>
             </div>
+            <div class="selector">
+                <label for="enamel-select">Enamel:</label>
+                <select id="enamel-select"></select>
+            </div>
+            <button id="randomize-btn">Randomize</button>
+            <button id="download-btn">Download</button>
         </div>
-    </section>
+        <div id="preview">
+            <canvas id="canvas" width="500" height="500"></canvas>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
